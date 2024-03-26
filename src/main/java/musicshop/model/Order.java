@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.Id;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,8 +23,8 @@ public class Order {
     private static final String SEQ_NAME = "order_seq";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_NAME")
-    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
+    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME,allocationSize = 1)
     private Long id;
     @CreationTimestamp
     private LocalDateTime created;

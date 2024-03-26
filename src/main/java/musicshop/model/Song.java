@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
+
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,8 +20,8 @@ public class Song {
     private static final String SEQ_NAME = "song_seq";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_NAME")
-    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
+    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME,allocationSize = 1)
     private Long id;
     @Column(nullable = false)
     private String title;
@@ -29,14 +29,15 @@ public class Song {
     private String orquesta;
     private String cantor;
     private String album;
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "songs_genres",
-    joinColumns = @JoinColumn(name = "song_id"),
-    inverseJoinColumns = @JoinColumn(name = "genre_id"))
+            joinColumns = @JoinColumn(name = "song_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres;
     private String year;
     private BigDecimal price;
-    private Double nds;
-    private boolean sales;
+    private BigDecimal nds;
+    private BigDecimal sales;
 
 
     public void setId(Long id) {

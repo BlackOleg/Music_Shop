@@ -1,0 +1,48 @@
+version: "3"
+services:
+  postgres:
+    container_name: mspostgres
+    image: postgres:15
+    ports:
+      - "5434:5432"
+    # expose:
+    #   - 5432
+    networks:
+      - back
+    restart: always
+    environment:
+      POSTGRES_DB: ms
+      POSTGRES_USER: mssu
+      POSTGRES_PASSWORD: mssupass
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+      #       - postgres:/var/lib/postgresql/data
+      # - ./docker/initpg.sh:/docker-entrypoint-initdb.d/initpg.sh
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/data/pgadmin
+        # /var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - back
+    restart: unless-stopped
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+  back:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
