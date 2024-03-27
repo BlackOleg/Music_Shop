@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Argentine tango mp3 files Shop</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<nav th:replace="fragments/navigation :: navigation"></nav>
+
+<main>
+    <div th:replace="${content}"></div>
+</main>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

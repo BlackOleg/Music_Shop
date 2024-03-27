@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +31,7 @@ public class SecurityConfig  {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/users/new").hasAuthority(Role.ADMIN.name())
+//                        .requestMatchers("/users/new").hasAuthority(Role.ADMIN.name())
                         .requestMatchers("/", "/home").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -39,25 +40,30 @@ public class SecurityConfig  {
                         .loginProcessingUrl("/auth")
                         .permitAll()
                 )
-                .logout(logout -> logout.permitAll());
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .permitAll())
+                .csrf(cross -> cross.disable());
 
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("user")
-                .password(passwordEncoder().encode("password"))
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user = User.withUsername("user")
+//                .password(passwordEncoder().encode("password"))
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails admin = User.withUsername("admin")
+//                .password(passwordEncoder().encode("admin"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(user, admin);
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
