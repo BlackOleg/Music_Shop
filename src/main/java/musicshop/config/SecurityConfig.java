@@ -1,6 +1,7 @@
 package musicshop.config;
 
 import musicshop.model.Role;
+import musicshop.repositories.UserRepository;
 import musicshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig  {
     private UserService userService;
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     public void setUserService(UserService userService){
         this.userService=userService;
     }
@@ -31,8 +35,8 @@ public class SecurityConfig  {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
-//                        .requestMatchers("/users/new").hasAuthority(Role.ADMIN.name())
-                        .requestMatchers("/", "/home").permitAll()
+                        .requestMatchers("/css/**","/", "/home","/index","/images/**").permitAll()
+                        .requestMatchers("/users/new", "/admin").hasAuthority(Role.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

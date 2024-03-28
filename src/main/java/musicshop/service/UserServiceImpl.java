@@ -37,18 +37,18 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.FindFirstByName(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Can't find this username like: " + username);
-        }
-        List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(user.getRole().name()));
-        return new org.springframework.security.core.userdetails.User(
-                user.getName(),
-                user.getPassword(),
-                roles
-        ) ;
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        User user = userRepository.FindFirstByName(username);
+//        if (user == null) {
+//            throw new UsernameNotFoundException("Can't find this username like: " + username);
+//        }
+//        List<GrantedAuthority> roles = new ArrayList<>();
+//        roles.add(new SimpleGrantedAuthority(user.getRole().name()));
+//        return new org.springframework.security.core.userdetails.User(
+//                user.getName(),
+//                user.getPassword(),
+//                roles
+//        ) ;
     }
 }
