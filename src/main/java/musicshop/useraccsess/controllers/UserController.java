@@ -1,7 +1,7 @@
-package musicshop.controllers;
+package musicshop.useraccsess.controllers;
 
 import musicshop.dto.UserDTO;
-import musicshop.service.UserService;
+import musicshop.useraccsess.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,18 +19,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/new")
-    public String newUser(Model model){
-        model.addAttribute("user", new UserDTO());
-        return "user";
-    }
-    @PostMapping("/new")
-    public String saveUser (UserDTO dto, Model model){
-        if (userService.save(dto)) {
-            return "redirect:/";
-        } else {
-            model.addAttribute("user", dto);
-            return "user";
-        }
-    }
+//    @GetMapping("/new")
+//    public String newUser(Model model){
+//        model.addAttribute("user", new UserDTO());
+//        return "user";
+//    }
+//    @PostMapping("/new")
+//    public String saveUser (UserDTO dto, Model model){
+//        if (userService.save(dto)) {
+//            return "redirect:/";
+//        } else {
+//            model.addAttribute("user", dto);
+//            return "user";
+//        }
+//    }
 }

@@ -1,6 +1,6 @@
-package musicshop.repositories;
+package musicshop.useraccsess.repository;
 
-import musicshop.model.User;
+import musicshop.useraccsess.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
